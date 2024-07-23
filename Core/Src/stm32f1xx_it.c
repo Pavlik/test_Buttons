@@ -44,6 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 bool alarmFlag = 0;
+extern struct buttons button1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,7 +58,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 	if(htim -> Instance == TIM3)
 		{
-			getDataFromButton();
+			getDataFromButton(&button1);
 		}
 
 }

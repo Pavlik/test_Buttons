@@ -47,6 +47,8 @@ TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 volatile bool buttonPressed;
+struct buttons button1 = {Button1_Pin, Button1_GPIO_Port, false, EXTI_FTSR_TR1, EXTI_RTSR_TR1};
+struct buttons button2 = {Button1_Pin, Button1_GPIO_Port, false, EXTI_FTSR_TR1, EXTI_RTSR_TR1};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,24 +66,19 @@ static void MX_TIM3_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	if(GPIO_Pin == GPIO_PIN_1)
+	if(GPIO_Pin == button1.pin)
 	{
-		if(!buttonPressed)
-		{
-			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-			HAL_TIM_Base_Start_IT(&htim3);
-		}
-		else if(buttonPressed) //&& TIM3 ->SR == 0)
-		{
-			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-			handleShortPress();
-		}
-		else return;
+		callBackButton(&button1);
+	}
+	else if(GPIO_Pin == button2.pin)
+	{
+		callBackButton(&button2);
 	}
 	else
 	{
 		__NOP();
 	}
+
 }
 
 /* USER CODE END 0 */
